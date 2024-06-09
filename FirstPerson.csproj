@@ -8,8 +8,8 @@
     <ProjectGuid>{09ED29FD-8D44-4DE6-8CB3-783C9D13EE77}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestScriptCS</RootNamespace>
-    <AssemblyName>TestScriptCS.net</AssemblyName>
+    <RootNamespace>FirstPerson</RootNamespace>
+    <AssemblyName>FirstPerson</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -66,22 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scripts\AnyTaxiScript.cs" />
-    <Compile Include="Scripts\BodyguardScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\camera.cs" />
-    <Compile Include="Scripts\ConfigurableTeleportScript.cs" />
     <Compile Include="Scripts\FirstPerson.cs" />
-    <Compile Include="Scripts\ScriptCommunicationExample.cs" />
-    <Compile Include="Scripts\TestScripts.cs" />
-    <Compile Include="Scripts\TextureDrawingExample.cs" />
-    <Compile Include="Scripts\WindowExample.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\rpm_gauge.png" />
-    <EmbeddedResource Include="Resources\rpm_needle.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -8,3 +8,8 @@ F:\SG\Code\GTA\TestScriptCS\bin\TestScriptCS.net.dll
 F:\SG\Code\GTA\TestScriptCS\bin\TestScriptCS.net.pdb
 F:\SG\Code\GTA\TestScriptCS\bin\ScriptHookDotNet.dll
 F:\SG\Code\GTA\TestScriptCS\obj\Debug\TestScri.81A05B33.Up2Date
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\TestScriptCS.csproj.AssemblyReference.cache
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\TestScriptCS.csproj.CoreCompileInputs.cache
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\TestScri.81A05B33.Up2Date
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\TestScriptCS.net.dll
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\TestScriptCS.net.pdb

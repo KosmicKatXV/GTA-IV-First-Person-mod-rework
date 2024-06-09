@@ -7,6 +7,7 @@ using System.Runtime.Remoting;
 using System.Security.AccessControl;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FirstPerson.net
@@ -76,6 +77,8 @@ namespace FirstPerson.net
         GTA.Camera fpCam;
         MouseHandler mHandler;
         bool camActivated;
+        float sinDir, cosDir;
+        Boolean aiming, camPressed;
 
         public FirstPerson()
         {
@@ -84,43 +87,50 @@ namespace FirstPerson.net
             fpCam = initCamera();
             camActivated = false;
             mHandler = new MouseHandler();
-            BindKey(Keys.B, new KeyPressDelegate(changeCamera));
-            for (int i = 0; i < 10; i++) for (int j = 0; j < 10; j++)
-                {
-                    Game.DisplayText("i:"+i.ToString()+" j:"+j.ToString());
-                    GTA.Native.Function.Call("SET_CHAR_COMPONENT_VARIATION", Player.Character, 0, i, j);
-                    Wait(500);
-                }
-
+            //BindKey(Keys.B, new KeyPressDelegate(changeCamera));
+            //BindKey(Keys.N, new KeyPressDelegate(destroyCamera));
+            this.Interval = 0;
+            this.Tick += new EventHandler(camEvent);
+            this.KeyDown += new GTA.KeyEventHandler(keyHandler);
         }
 
-        private void changeCamera()
+        private void keyHandler(object sender, GTA.KeyEventArgs e)
         {
-            camActivated = !camActivated;
+            if (Keys.B == e.Key)
+            {
+                camActivated = !camActivated;
+                if (camActivated)
+                {
+                    fpCam = initCamera();
+                    fpCam.isActive = true;
+                    mHandler.resetPos();
+                    GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 0, 0);
+                    GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 7, 0);
+                    GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 9, 0);
+                }
+                else
+                {
+                    fpCam.isActive = false;
+                    GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 0, 1);
+                    GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 7, 1);
+                    GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 9, 1);
+                }
+            }
+        }
+
+        private void camEvent(object sender, EventArgs e)
+        {
+            Game.DisplayText(camActivated.ToString());
             if (camActivated)
             {
-                fpCam = initCamera();
-                fpCam.isActive = true;
-                mHandler.resetPos();
-            }
-            else
-            {
-                fpCam.isActive = false;
-                fpCam = null;
-            }
-            float sinDir, cosDir;
-            Boolean aiming;
-            //while (camActivated)
-            while (true)
-            {
-                Wait((int)(1 / Game.FPS) * 1000);
                 mHandler.update();
                 sinDir = (float)-Math.Sin((Math.PI / 180) * Player.Character.Heading);
                 cosDir = (float)Math.Cos((Math.PI / 180) * Player.Character.Heading);
                 aiming = Game.isGameKeyPressed(GameKey.Aim);
+                //camPressed = Game.isGameKeyPressed(GameKey.);
                 if (Player.Character.isInVehicle())
                 {
-                    if (aiming) camAimCar(sinDir,cosDir);
+                    if (aiming) camAimCar(sinDir, cosDir);
                     else camCar(sinDir, cosDir);
                 }
                 else
@@ -133,25 +143,24 @@ namespace FirstPerson.net
 
         private void camFoot(float sin, float cos)
         {
-            float offset = 0.1f;
+            float offset = -0.05f;
             Player.Character.Heading -= mHandler.velX();
-            
             fpCam.Heading = Player.Character.Heading;
             fpCam.Direction = Player.Character.Direction + new Vector3(0, 0, -mHandler.posY());
-            fpCam.Position = Player.Character.GetBonePosition(Bone.Head) + new Vector3(sin * offset, cos * offset,0);
+            fpCam.Position = Player.Character.GetBonePosition(Bone.Head) + new Vector3(sin * offset, cos * offset,0.1f);
         }
 
         private void camAimFoot(float sin, float cos)
         {
-            float offset = 0.1f;
-            this.PerFrameDrawing += new GTA.GraphicsEventHandler(sightDrawing);
+            float offset = -0.05f;
             //GTA.Object holding = World.CreateObject(new Model(1862763509), new Vector3(0,0,0));
-            //int object_handler = holding.Metadata.Handle;
-            //GTA.Native.Function.Call("GET_OBJECT_PED_IS_HOLDING", ped_handler, object_handler);
-            //Game.DisplayText(holding.Metadata.ToString());
+            //GTA.Native.Function.Call("GET_OBJECT_PED_IS_HOLDING", Player.Character, holding);
+            //Game.DisplayText(holding.Model.ToString());
             fpCam.Heading = Player.Character.Heading;
-            fpCam.Direction = Player.Character.Direction + new Vector3(0, 0, -mHandler.posY());
-            fpCam.Position = Player.Character.GetBonePosition(Bone.Head) + new Vector3(sin * offset, cos * offset, 0);
+            //fpCam.LookAt(Player.Character.h);
+            //GTA.Native.Function.Call("ATTACH_CAM_TO_PED", fpCam, Player.Character);
+            //fpCam.Direction = Player.Character.Direction + new Vector3(0, 0, -mHandler.posY());
+            fpCam.Position = Player.Character.GetBonePosition(Bone.Head) + new Vector3(sin * offset, cos * offset, 0.1f);
         }
 
         private void camCar(float sin, float cos)
@@ -192,6 +201,18 @@ namespace FirstPerson.net
             e.Graphics.DrawSprite(sight, radarCenterX - size / 2, radarCenterY + size / 2, size, size, -(float)Math.PI/2); //upRight
             e.Graphics.DrawSprite(sight, radarCenterX + size / 2, radarCenterY - size / 2, size, size, (float)Math.PI/2); //botLeft
             e.Graphics.DrawSprite(sight, radarCenterX + size / 2, radarCenterY + size / 2, size, size, (float)Math.PI); //botRight
+        }
+
+        private void destroyCamera()
+        {
+            GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 0, 1);
+            GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 7, 1);
+            GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 9, 1);
+            //GTA.Native.Function.Call("SET_DRAW_PLAYER_COMPONENT", 10, 1);
+            GTA.Native.Function.Call("SET_CAM_ACTIVE", fpCam, 0);
+            GTA.Native.Function.Call("SET_CAM_PROPAGATE", Game.DefaultCamera, 1);
+            fpCam.Delete();
+            GTA.Native.Function.Call("SET_GAME_CAMERA_CONTROLS_ACTIVE", 1);
         }
     }
 }

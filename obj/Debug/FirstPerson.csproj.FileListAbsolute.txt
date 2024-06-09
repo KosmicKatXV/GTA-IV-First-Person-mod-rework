@@ -1,0 +1,7 @@
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\FirstPerson.csproj.AssemblyReference.cache
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\FirstPerson.csproj.CoreCompileInputs.cache
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\FirstPer.4E7447C3.Up2Date
+F:\games\pirata\Grand Theft Auto IV\scripts\FirstPerson.dll
+F:\games\pirata\Grand Theft Auto IV\scripts\FirstPerson.pdb
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\FirstPerson.dll
+F:\SG\Code\GTA\GTA-IV-First-Person-mod-rework\obj\Debug\FirstPerson.pdb
