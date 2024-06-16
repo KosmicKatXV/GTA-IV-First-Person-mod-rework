@@ -1,1 +1,1 @@
-REM copy TestScriptCS.net.dll "C:\Program Files\Rockstar Games\Grand Theft Auto IV\scripts\TestScriptCS.net"
+REM copy FirstPerson.dll "F:\games\pirata\Grand Theft Auto IV\scripts\FirstPerson.net"
